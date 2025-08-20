@@ -9,7 +9,7 @@ const en = {
   },
   welcomeScreen: {
     postscript:
-      "psst  — This probably isn't what your app looks like. (Unless your designer handed you these screens, and in that case, ship it!)",
+      "ArchBudget is a financial technology company, not an FDIC-insured bank. Banking services provided by Zeshan Financial Group, blah blah blah blah...",
     readyForLaunch: "Your app, almost ready for launch!",
     exciting: "(ohh, this is exciting!)",
     letsGo: "Let's go!", // @demo remove-current-line
