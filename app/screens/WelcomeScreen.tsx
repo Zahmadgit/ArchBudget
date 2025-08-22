@@ -50,6 +50,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(
       -1,
       false,
     )
+    //this is for color change of the phone and card boxes
     progress.value = withRepeat(
       withSequence(
         withDelay(1500, withTiming(-80, { duration: 1000 })), // forward
@@ -85,8 +86,29 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
       <ScrollView horizontal pagingEnabled contentContainerStyle={styles.contentContainer}>
         <View style={styles.viewContainer}>
-          <Animated.View style={[styles.phoneBox, animatedLinear, animatedStyle]} />
-          <Animated.View style={[styles.cardBox, animatedChanged]} />
+          <Animated.View style={[styles.phoneBox, animatedLinear, animatedStyle]}></Animated.View>
+          <Animated.View style={[styles.cardBox, animatedChanged]}>
+            <View style={{ padding: 10, marginTop: "-3%", marginLeft: "5%" }}>
+              <Text>VISA</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={{ fontSize: 10, marginTop: -10, fontWeight: 100 }}>CREDIT</Text>
+
+                <View style={styles.chipBox}></View>
+              </View>
+              <Text
+                style={{
+                  fontSize: 40,
+                  position: "absolute",
+                  marginTop: "110%",
+                  color: "white",
+                }}
+              >
+                current
+              </Text>
+            </View>
+            <View style={styles.cardBotton}></View>
+            <View style={styles.cardBotton2}></View>
+          </Animated.View>
         </View>
         <View style={styles.viewContainer}>
           <Animated.View style={[styles.phoneBox, animatedLinear, animatedStyle]} />
@@ -117,6 +139,30 @@ const $bottomContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
 })
 
 const styles = StyleSheet.create({
+  chipBox: {
+    backgroundColor: "#878987ff",
+    height: 40,
+    width: 30,
+    borderRadius: 5,
+    marginLeft: "10%",
+    marginTop: "-10%",
+  },
+  cardBotton: {
+    flex: 1,
+    backgroundColor: "#0c48a7ff",
+    height: 20,
+    width: "100%",
+    marginTop: "80%",
+    position: "relative",
+    zIndex: -10,
+  },
+  cardBotton2: {
+    backgroundColor: "#efeb02ff",
+    height: 15,
+    width: "100%",
+    borderBottomEndRadius: 20,
+    borderBottomStartRadius: 20,
+  },
   contentContainer: {
     flexDirection: "row",
   },
@@ -145,6 +191,6 @@ const styles = StyleSheet.create({
     top: 150,
     alignSelf: "center",
     borderRadius: 20,
-    backgroundColor: "black",
+    backgroundColor: "#212221ff",
   },
 })
