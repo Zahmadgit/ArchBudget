@@ -50,6 +50,14 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(
       -1,
       false,
     )
+    progress.value = withRepeat(
+      withSequence(
+        withDelay(1500, withTiming(-80, { duration: 1000 })), // forward
+        withDelay(1500, withTiming(80, { duration: 1000 })), // backward
+      ),
+      -1,
+      true,
+    )
   }, [])
 
   const animatedStyle = useAnimatedStyle(() => {
