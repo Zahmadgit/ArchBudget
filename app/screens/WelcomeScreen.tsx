@@ -1,9 +1,7 @@
 import { FC, useEffect } from "react"
-import { Image, ImageStyle, TextStyle, View, ViewStyle, StyleSheet } from "react-native"
-
+import { View, ViewStyle, StyleSheet, ScrollView, Dimensions } from "react-native"
 import Animated, {
   useSharedValue,
-  withSpring,
   withRepeat,
   useAnimatedStyle,
   withTiming,
@@ -16,22 +14,15 @@ import { Button } from "@/components/Button" // @demo remove-current-line
 import { Screen } from "@/components/Screen"
 import { Text } from "@/components/Text"
 import { useAuth } from "@/context/AuthContext" // @demo remove-current-line
-import { isRTL } from "@/i18n"
 import type { AppStackScreenProps } from "@/navigators/AppNavigator" // @demo remove-current-line
-import type { ThemedStyle } from "@/theme/types"
 import { useAppTheme } from "@/theme/context"
 import { $styles } from "@/theme/styles"
+import type { ThemedStyle } from "@/theme/types"
 import { useHeader } from "@/utils/useHeader" // @demo remove-current-line
 import { useSafeAreaInsetsStyle } from "@/utils/useSafeAreaInsetsStyle"
 
-interface AppProps {
-  width: number
-}
-const welcomeLogo = require("@assets/images/logo.png")
-const welcomeFace = require("@assets/images/welcome-face.png")
-
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {} // @demo remove-current-line
-
+const { width } = Dimensions.get("window")
 // @demo replace-next-line export const WelcomeScreen: FC = function WelcomeScreen(
 export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(
   _props, // @demo remove-current-line
@@ -45,7 +36,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(
   const animatedChanged = useAnimatedStyle(() => ({
     transform: [{ translateX: -defaultAnim.value }],
   }))
-  const { themed, theme } = useAppTheme()
+  const { themed } = useAppTheme()
   // @demo remove-block-start
   const { navigation } = _props
   const { logout } = useAuth()
@@ -53,19 +44,11 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(
   useEffect(() => {
     defaultAnim.value = withRepeat(
       withSequence(
-        withDelay(1500, withTiming(-110, { duration: 1000 })), // forward
-        withDelay(1500, withTiming(100, { duration: 1000 })), // backward
+        withDelay(1500, withTiming(-80, { duration: 1000 })), // forward
+        withDelay(1500, withTiming(80, { duration: 1000 })), // backward
       ),
       -1,
       false,
-    )
-    progress.value = withRepeat(
-      withSequence(
-        withDelay(1500, withTiming(-100, { duration: 1000 })), // forward
-        withDelay(1500, withTiming(100, { duration: 1000 })), // backward
-      ),
-      -1,
-      true,
     )
   }, [])
 
@@ -92,9 +75,16 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = function WelcomeScreen(
   //the text component has a tx="" prop, well this is also for getting default strings from the translation en.ts files
   return (
     <Screen preset="fixed" contentContainerStyle={$styles.flex1}>
-      <Animated.View style={[styles.phoneBox, animatedLinear, animatedStyle]} />
-      <Animated.View style={[styles.cardBox, animatedChanged]} />
-
+      <ScrollView horizontal pagingEnabled contentContainerStyle={styles.contentContainer}>
+        <View style={styles.viewContainer}>
+          <Animated.View style={[styles.phoneBox, animatedLinear, animatedStyle]} />
+          <Animated.View style={[styles.cardBox, animatedChanged]} />
+        </View>
+        <View style={styles.viewContainer}>
+          <Animated.View style={[styles.phoneBox, animatedLinear, animatedStyle]} />
+          <Animated.View style={[styles.cardBox, animatedChanged]} />
+        </View>
+      </ScrollView>
       <View style={themed([$bottomContainer, $bottomContainerInsets])}>
         <Text tx="welcomeScreen:postscript" size="md" />
         {/* @demo remove-block-start */}
@@ -119,6 +109,14 @@ const $bottomContainer: ThemedStyle<ViewStyle> = ({ colors, spacing }) => ({
 })
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flexDirection: "row",
+  },
+  viewContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: width,
+  },
   phoneBox: {
     height: 400,
     width: 200,
